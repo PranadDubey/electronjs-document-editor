@@ -1,0 +1,94 @@
+.table-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #222;
+}
+
+.table-field-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-field-controls input[type="range"] {
+  flex: 1;
+  min-width: 120px;
+  cursor: ew-resize;
+}
+
+.table-field-controls input[type="number"] {
+  width: 64px;
+}
+
+.insert-icon-results { max-height: 220px; overflow: auto; display: grid; gap: 6px; }
+.insert-icon-item {
+  background: #fff !important;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+  color: #000000 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.insert-icon-item:hover,
+.insert-icon-item:focus,
+.insert-icon-item:active {
+  background: #fff !important;
+}
+
+.insert-icon-char {
+  background: transparent !important;
+  color: #000000 !important;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.insert-icon-name {
+  text-align: left;
+  flex: 1;
+}
+
+.insert-textbox-dropdown {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.insert-textbox-dropdown label {
+  color: #000;
+}
+
+.insert-textbox-dropdown input[type="color"] {
+  width: 36px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.insert-textbox-create-btn {
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+}
+
+.insert-textbox-create-btn:hover,
+.insert-textbox-create-btn:focus {
+  background: #1f1f1f !important;
+  color: #fff !important;
+}
+
+.insert-textbox-toggle-btn:hover,
+.insert-textbox-toggle-btn:focus,
+.insert-textbox-toggle-btn:active {
+  background: #fff !important;
+  color: #000 !important;
+}

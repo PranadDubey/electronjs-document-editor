@@ -1,0 +1,118 @@
+:root {
+  --page-width: 816px;    /* 8.5in at 96dpi */
+  --page-height: 1056px;  /* 11in at 96dpi */
+  --page-margin: 96px;    /* 1in margins */
+  
+  /* The space between pages (e.g. 24px) */
+  --page-gap: 24px;       
+  /* Total cycle height = 1 page + 1 gap */
+  --cycle-height: 1080px; 
+
+  --canvas-bg: #000000;
+  --page-bg: #ffffff;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.doc-area {
+  background: var(--canvas-bg);
+  padding: 32px 0 64px; 
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+}
+
+/* The continuous visual background paper */
+.doc-page {
+  width: var(--page-width);
+  
+  /* THIS IS THE FIX: Instead of min-height: 1056px (which lets it grow in random pixels),
+     we use CSS 'height' with math to snap it to exact full-page increments! */
+  min-height: var(--page-height); 
+  height: fit-content;
+  
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--page-bg) 0px,
+    var(--page-bg) var(--page-height),     
+    var(--canvas-bg) var(--page-height),    
+    var(--canvas-bg) var(--cycle-height)     
+  );
+  box-shadow: var(--shadow);
+  border-radius: 2px;
+  position: relative;
+}
+/* The parent of the editor */
+.doc-content {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Clean up Quill's default Chrome */
+.ql-container.ql-snow {
+  border: none !important;
+  font-family: var(--doc-font, "Times New Roman");
+  font-size: 12pt;
+}
+
+/* 
+  THIS IS THE MAGIC TRICK:
+  We constrain the text horizontally using normal padding.
+  But vertically, we use transparent bottom borders/margins on paragraphs
+  or padding to keep text away from the gap!
+*/
+.ql-editor {
+  /* Left and right margins */
+  padding-left: var(--page-margin) !important;
+  padding-right: var(--page-margin) !important;
+  
+  /* Top margin of the very first page */
+  padding-top: var(--page-margin) !important;
+  /* Bottom margin of the very last page */
+  padding-bottom: var(--page-margin) !important;
+  
+  overflow: hidden !important; 
+  color: #111;
+}
+
+.ql-editor img {
+  cursor: move;
+}
+
+.textbox-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.textbox-item {
+  position: absolute;
+  border: 1px solid #8c8c8c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  min-width: 120px;
+  min-height: 60px;
+  overflow: hidden;
+}
+
+.textbox-content {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: text;
+}
+
+.textbox-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  background: #444;
+  cursor: nwse-resize;
+}

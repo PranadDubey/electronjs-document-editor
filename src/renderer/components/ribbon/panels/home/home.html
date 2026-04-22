@@ -1,0 +1,70 @@
+<div class="ribbon-group">
+  <div class="ribbon-row">
+    <div style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 8px;">
+      <span style="font-size: 13px; color: #ffffff; margin-bottom: 2px;">Font Family</span>
+      <select class="ribbon-tool format-select" data-format="font" title="Font Family">
+        <option value="" selected>System Default</option>
+      </select>
+    </div>
+    <div class="custom-size-wrapper" style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 12px;">
+      <span style="font-size: 13px; color: #ffffff; margin-bottom: 2px;">Size</span>
+      <input type="number" step = "1" class="ribbon-tool format-input format-size-input" data-format="size" list="font-sizes" value="11" title="Font Size" style="width: 50px; text-align: center;">
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 12px;">
+      <span style="font-size: 13px; color: white; margin-bottom: 2px;">Color</span>
+      <input type="color" class="ribbon-tool format-color" data-format="color" value="#000000" title="Font Color" style="width: 32px; height: 24px; padding: 0; border: 1px solid #c0c0c0; cursor: pointer;">
+    </div>
+    <button class="ribbon-tool format-btn" data-format="bold"><b>B</b></button>
+    <button class="ribbon-tool format-btn" data-format="italic"><i>I</i></button>
+    <button class="ribbon-tool format-btn" data-format="underline"><u>U</u></button>
+    <button class="ribbon-tool format-btn" data-format="strike"><s>S</s></button>
+    <button class="ribbon-tool format-btn" data-format="script" data-value="sub">X₂</button>
+    <button class="ribbon-tool format-btn" data-format="script" data-value="super">X²</button>
+    <button class="ribbon-tool paragraph-btn" data-format="align" data-value="left" title="Align Left" aria-label="Align Left">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M1 3h10v1H1V3zm0 3h14v1H1V6zm0 3h10v1H1V9zm0 3h14v1H1v-1z"/>
+      </svg>
+    </button>
+
+    <button class="ribbon-tool paragraph-btn" data-format="align" data-value="center" title="Align Center" aria-label="Align Center">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M3 3h10v1H3V3zM1 6h14v1H1V6zM3 9h10v1H3V9zM1 12h14v1H1v-1z"/>
+      </svg>
+    </button>
+
+    <button class="ribbon-tool paragraph-btn" data-format="align" data-value="right" title="Align Right" aria-label="Align Right">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M5 3h10v1H5V3zM1 6h14v1H1V6zm4 3h10v1H5V9zM1 12h14v1H1v-1z"/>
+      </svg>
+    </button>
+
+    <button class="ribbon-tool paragraph-btn" data-format="align" data-value="justify" title="Justify" aria-label="Justify">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M1 3h14v1H1V3zm0 3h14v1H1V6zm0 3h14v1H1V9zm0 3h14v1H1v-1z"/>
+      </svg>
+    </button>
+    <div style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 12px;">
+      <span style="font-size: 13px; color: #ffffff; margin-bottom: 2px;">Line Spacing</span>
+      <input
+        type="number"
+        class="ribbon-tool paragraph-input"
+        data-format="lineheight"
+        value="1.0"
+        min="0.5"
+        step="0.05"
+        style="width: 60px; height: 13px; text-align: center; background-color: white; color: black;"
+      >
+    </div>
+    <button class="ribbon-tool format-btn list-btn" data-format="list" data-value="bullet" title="Bulleted List" aria-label="Bulleted List">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M3 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM5 3h10v1H5V3zM3 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM5 7.5h10v1H5v-1zM3 12.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM5 12h10v1H5v-1z"/>
+      </svg>
+    </button>
+
+    <button class="ribbon-tool format-btn list-btn" data-format="list" data-value="ordered" title="Numbered List" aria-label="Numbered List">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M1 3h2v.8H2.2V5H1.4V3.8H1V3zm0 4h2v.8L2 9h1v1H1V9.2L2 8H1V7zm0 4h2v2H1v-.8h1.2v-.4H1V11zm4-8h10v1H5V3zm0 4.5h10v1H5v-1zm0 4.5h10v1H5v-1z"/>
+      </svg>
+    </button>
+    </div>
+</div>

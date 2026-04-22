@@ -1,0 +1,24 @@
+{
+  "name": "word-app-electronjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch .  --ext js,json,html,css --exec electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@enzedonline/quill-blot-formatter2": "^3.1.1",
+    "@fluentui/svg-icons": "^1.1.323",
+    "codemirror": "^5.65.21",
+    "electron": "^41.1.1",
+    "electron-window-state": "^5.0.3",
+    "font-list": "^2.0.2",
+    "nodemon": "^3.1.14",
+    "quill": "^2.0.3"
+  }
+}

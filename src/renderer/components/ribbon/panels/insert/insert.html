@@ -1,0 +1,74 @@
+<div class="ribbon-group">
+  <div class="ribbon-row" style="display:flex; gap:8px; align-items:flex-start;">
+    <button class="ribbon-tool insert-image-btn" data-action="insert-image" title="Insert Picture" aria-label="Insert Picture">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path fill="currentColor" d="M2 2h12v12H2V2zm1 1v8.2l2.8-2.8 2.2 2.2 1.7-1.7 3.3 3.3V3H3zm2.2 2.2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
+      </svg>
+      <span style="margin-left:6px;">Insert Picture</span>
+    </button>
+
+    <div style="position:relative;">
+      <button class="ribbon-tool insert-table-toggle-btn" type="button" title="Insert Table" aria-label="Insert Table">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path fill="currentColor" d="M1 1h14v14H1V1zm1 1v3h4V2H2zm5 0v3h7V2H7zM2 6v4h4V6H2zm5 0v4h7V6H7zM2 11v3h4v-3H2zm5 0v3h7v-3H7z"/>
+        </svg>
+        <span style="margin-left:6px;">Table</span>
+      </button>
+
+      <div class="insert-table-dropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:180px; z-index:999;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <label class="table-field">
+              Rows
+              <div class="table-field-controls">
+                <input class="insert-table-rows" type="number" min="1" max="50" value="3" />
+              </div>
+            </label>
+
+            <label class="table-field">
+              Columns
+              <div class="table-field-controls">
+                <input class="insert-table-cols" type="number" min="1" max="20" value="3" />
+              </div>
+            </label>
+            <button class="ribbon-tool insert-table-create-btn" type="button" style="background-color: black; color: white;">Create</button>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button class="ribbon-tool insert-icon-toggle-btn" type="button" title="Insert Icon" aria-label="Insert Icon">
+        <span style="margin-left:6px;">🖊 Insert Icon</span>
+      </button>
+
+      <div class="insert-icon-dropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:240px; z-index:999;">
+        <input class="insert-icon-search" type="text" placeholder="Search icon..." style="width:100%; margin-bottom:8px;" />
+        <div class="insert-icon-results"></div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button class="ribbon-tool insert-textbox-toggle-btn" type="button" title="Insert Text Box" aria-label="Insert Text Box">
+        <span style="margin-left:6px;">Text Box</span>
+      </button>
+
+      <div
+        class="insert-textbox-dropdown"
+        style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:220px; z-index:999;"
+      >
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; color:#222;">
+            Fill Color
+            <input class="insert-textbox-fill" type="color" value="#fff3b0" />
+          </label>
+
+          <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; color:#222;">
+            Font Color
+            <input class="insert-textbox-font" type="color" value="#000000" />
+          </label>
+
+          <button class="ribbon-tool insert-textbox-create-btn" type="button" style="background:#000; color:#fff;">
+            Create Text Box
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

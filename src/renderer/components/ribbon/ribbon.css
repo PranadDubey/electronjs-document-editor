@@ -1,0 +1,121 @@
+.ribbon {
+  background: #000000;
+  /* border-bottom: 1px solid #1e2431; */
+  border: none;
+}
+
+.ribbon-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.ribbon-tab {
+  background: transparent;
+  border: none;
+  color: #cfd4dc;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.ribbon-tab.is-active {
+  color: #ffffff;
+  border-bottom: 5px solid #4aa3ff;
+  font-weight: 700;
+}
+
+.ribbon-panel {
+  display: none;
+}
+
+.ribbon-panel.is-active {
+  display: block;
+}
+
+/* Ribbon panel container (outer wrapper) */
+/* .ribbon-panels {
+  padding: 0.5rem 0.75rem 0.75rem;
+} */
+
+/* The actual panel box (applies to every tab) */
+.ribbon-panel {
+  display: none;                 /* hidden until active */
+  background: rgb(27, 26, 26);           /* light grey box */
+  color: #1a1a1a;                /* readable text */
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  margin: 0.5rem;
+  min-height: 85px;
+  /* border: 1px solid #cfd4dc; */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Active panel */
+.ribbon-panel.is-active {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ribbon-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #cfd4dc;
+  padding-right: 1rem;
+}
+
+.ribbon-row {
+  display: flex;
+  gap: 2px;
+}
+
+.ribbon-tool {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--ui-font);
+  color: #ffffff;
+}
+
+.ribbon-tool:hover {
+  background: #d4d4d4;
+  color: #000000;
+}
+
+/* This is applied by JS when the text is bold/italic */
+.ribbon-tool.is-active {
+  background: #c8d3ea;
+  border-color: #a8bce6;
+  color: #ffffff;
+}
+
+.ribbon-label {
+  font-size: 10px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.ribbon-tool.format-select, 
+.ribbon-tool.format-input {
+  background: #ffffff;       /* Solid white background */
+  color: #000000;            /* Black text inside */
+  border: 1px solid #c0c0c0; /* Light gray border */
+  padding: 2px 4px;
+  cursor: text;
+}
+
+/* Prevent them from inheriting the button hover grey/black effect */
+.ribbon-tool.format-select:hover,
+.ribbon-tool.format-input:hover {
+  background: #ffffff;       /* Stay white */
+  color: #000000;            /* Stay black */
+  border-color: #999999;     /* Slightly darker border on hover */
+}
+

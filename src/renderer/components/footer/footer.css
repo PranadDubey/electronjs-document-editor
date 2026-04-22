@@ -1,0 +1,53 @@
+.status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background-color: #000000; /* The classic Word blue, looks great on dark mode too */
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 12px;
+  font-family: var(--ui-font);
+  z-index: 1000;
+  user-select: none;
+}
+
+.status-left, .status-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.status-item {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  height: 100%;
+  padding: 0 8px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.status-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.zoom-slider {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 8px;
+}
+
+.zoom-range {
+  width: 100px;
+  margin: 0 4px;
+  cursor: pointer;
+  accent-color: #ffffff;
+}
