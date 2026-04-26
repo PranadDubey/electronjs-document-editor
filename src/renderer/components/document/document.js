@@ -322,11 +322,234 @@
     window.editor.focus();
     window.editor.scrollSelectionIntoView();
   }
+    const pageNumberLayer = document.createElement("div");
+    pageNumberLayer.className = "page-number-layer";
+    pageObj.appendChild(pageNumberLayer);
+
+    let pageNumberEnabled = false;
+    let pageNumberStartFromPage = 1;
+
+    window.addEventListener("pageNumbers:config", (e) => {
+      pageNumberEnabled = !!e?.detail?.enabled;
+      pageNumberStartFromPage = Math.max(1, parseInt(e?.detail?.startFromPage, 10) || 1);
+      // re-render with current page count
+      renderPageNumbers(lastTotalPages);
+    });
+
+    function renderPageNumbers(totalPages) {
+      pageNumberLayer.innerHTML = "";
+
+      if (!pageNumberEnabled) return;
+
+      for (let i = 0; i < totalPages; i++) {
+        const physicalPage = i + 1;
+        if (physicalPage < pageNumberStartFromPage) continue;
+
+        const marker = document.createElement("div");
+        marker.className = "page-number-marker";
+
+        // Numbering starts at 1 on selected start page
+        const displayNumber = physicalPage - pageNumberStartFromPage + 1;
+        marker.textContent = `${displayNumber}`;
+
+        // Bottom center of each white page
+        const y = (i * CYCLE_HEIGHT) + PAGE_HEIGHT - PAGE_NUMBER_CENTER_FROM_BOTTOM;
+        marker.style.top = `${y}px`;
+
+        pageNumberLayer.appendChild(marker);
+      }
+    }
+    // distributing a seperate header and footer area in the document
+    const headerFooterLayer = document.createElement("div");
+    headerFooterLayer.className = "header-footer-layer";
+    headerFooterLayer.style.position = "absolute";
+    headerFooterLayer.style.inset = "0";
+    headerFooterLayer.style.pointerEvents = "none";
+    headerFooterLayer.style.zIndex = "14";
+    pageObj.appendChild(headerFooterLayer);
+    const HEADER_OFFSET_TOP = 8;
+    const FOOTER_OFFSET_BOTTOM = 8;
+    const HEADER_REGION_HEIGHT = 32;
+    const FOOTER_REGION_HEIGHT = 32;
+    const PAGE_NUMBER_CENTER_FROM_BOTTOM = 18;
+    const FOOTER_TO_PAGE_NUMBER_GAP = 8;
+
+    let headerEnabled = false;
+    let footerEnabled = false;
+    let headerText = "";
+    let footerText = "";
+    let activeHeaderFooterRegion = null;
+
+    // setting the cursor at the end of the element
+    function placeCursorAtEnd(el) {
+      const sel = window.getSelection();
+      if (!sel) return;
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    // syncs the header and footer text for all pages
+    function syncHeaderFooterText(regionName, value) {
+      const nodes = headerFooterLayer.querySelectorAll('.hf-region[data-region="' + regionName + '"]');
+      nodes.forEach((n) => {
+        if (n.innerText !== value) n.innerText = value;
+      });
+    }
+
+    // handling the editable status of header and footer
+    function setHeaderFooterEditable(regionName) {
+      activeHeaderFooterRegion = regionName || null;
+
+      const nodes = headerFooterLayer.querySelectorAll(".hf-region");
+      nodes.forEach((node) => {
+        const region = node.dataset.region;
+        const active = !!activeHeaderFooterRegion && region === activeHeaderFooterRegion;
+
+        node.contentEditable = active ? "true" : "false";
+        node.style.background = active ? "rgba(0, 0, 0, 0.03)" : "transparent";
+
+        if (region === "header") {
+          node.style.borderBottom = active ? "1px dotted #666" : "1px dotted transparent";
+        } else {
+          node.style.borderTop = active ? "1px dotted #666" : "1px dotted transparent";
+        }
+      });
+
+      if (activeHeaderFooterRegion) {
+        const first = headerFooterLayer.querySelector('.hf-region[data-region="' + activeHeaderFooterRegion + '"]');
+        if (first) {
+          first.focus();
+          placeCursorAtEnd(first);
+        }
+      }
+    }
+
+// setting up the header and footer component and area in the document
+function createHeaderFooterNode(region, pageTop) {
+  const node = document.createElement("div");
+  node.className = "hf-region";
+  node.dataset.region = region;
+
+  node.style.position = "absolute";
+  node.style.left = `${PAGE_MARGIN}px`;
+  node.style.width = `calc(100% - ${PAGE_MARGIN * 2}px)`;
+  node.style.padding = "4px 6px";
+  node.style.boxSizing = "border-box";
+  node.style.whiteSpace = "pre-wrap";
+  node.style.outline = "none";
+  node.style.pointerEvents = "auto";
+  node.style.userSelect = "text";
+  node.style.fontSize = "12px";
+  node.style.lineHeight = "1.3";
+  node.style.color = "#222";
+  node.style.maxWidth = `calc(100% - ${PAGE_MARGIN * 2}px)`;
+  node.style.overflowX = "hidden";
+  node.style.overflowWrap = "anywhere";
+  node.style.wordBreak = "break-word";
+
+  if (region === "header") {
+    node.style.top = `${pageTop + HEADER_OFFSET_TOP}px`;
+    node.style.minHeight = `${HEADER_REGION_HEIGHT}px`;
+    node.style.borderBottom = "1px dotted transparent";
+    node.innerText = headerText;
+  } else {
+      const footerTop =
+      pageTop +
+      PAGE_HEIGHT -
+      PAGE_NUMBER_CENTER_FROM_BOTTOM -
+      FOOTER_TO_PAGE_NUMBER_GAP -
+      FOOTER_REGION_HEIGHT;
+
+      node.style.top = `${footerTop}px`;
+      node.style.height = `${FOOTER_REGION_HEIGHT}px`;
+      node.style.overflowY = "auto";
+      node.style.borderTop = "1px dotted transparent";
+      node.innerText = footerText;
+  }
+
+  node.contentEditable = "false";
+  node.spellcheck = false;
+
+  // listening fir double click in the header/footer region to make it active and editable
+  node.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setHeaderFooterEditable(region);
+  });
+
+  node.addEventListener("keydown", (e) => {
+    e.stopPropagation();
+  });
+
+  //updating the header/footer text with each input
+  node.addEventListener("input", () => {
+    if (region === "header") {
+      headerText = node.innerText || "";
+      syncHeaderFooterText("header", headerText);
+    } else {
+      footerText = node.innerText || "";
+      syncHeaderFooterText("footer", footerText);
+    }
+  });
+
+  return node;
+}
+
+//rendering the header and footer all synced up in all the pages
+function renderHeaderFooters(totalPages) {
+  headerFooterLayer.innerHTML = "";
+
+  if (!headerEnabled && !footerEnabled) return;
+
+  for (let i = 0; i < totalPages; i++) {
+    const pageTop = i * CYCLE_HEIGHT;
+
+    if (headerEnabled) {
+      headerFooterLayer.appendChild(createHeaderFooterNode("header", pageTop));
+    }
+
+    if (footerEnabled) {
+      headerFooterLayer.appendChild(createHeaderFooterNode("footer", pageTop));
+    }
+  }
+
+  if (activeHeaderFooterRegion) {
+    setHeaderFooterEditable(activeHeaderFooterRegion);
+  }
+}
+
+// listening the broadcast from the insert.js file regarding the activation of the header and footer option from the dropdown
+window.addEventListener("headerFooter:config", (e) => {
+  headerEnabled = !!e?.detail?.headerEnabled;
+  footerEnabled = !!e?.detail?.footerEnabled;
+
+  const requested = e?.detail?.activeRegion || null;
+
+  if (requested === "header" && headerEnabled) activeHeaderFooterRegion = "header";
+  else if (requested === "footer" && footerEnabled) activeHeaderFooterRegion = "footer";
+  else activeHeaderFooterRegion = null;
+
+  renderHeaderFooters(lastTotalPages);
+});
+
+// if the user clicks outside the region of the header/footer region then it becomes non-editable again
+document.addEventListener("mousedown", (e) => {
+  const insideHeaderFooter = !!e.target.closest(".hf-region");
+  const insideHeaderFooterDropdown = !!e.target.closest(".insert-header-footer-dropdown");
+  const insideRibbon = !!e.target.closest(".ribbon");
+  if (!insideHeaderFooter && !insideHeaderFooterDropdown && !insideRibbon) {
+    setHeaderFooterEditable(null);
+  }
+});
         //Dimensions of the page
         const PAGE_HEIGHT = 1056; 
         const PAGE_MARGIN = 96;   
         const PAGE_GAP = 24;      
         const CYCLE_HEIGHT = PAGE_HEIGHT + PAGE_GAP; 
+        let lastTotalPages = 1;
     
         //Pagination process
         function enforcePagination() {
@@ -372,6 +595,10 @@
 
       const requiredPaperHeight = (maxPageIndex + 1) * CYCLE_HEIGHT;
       docPage.style.height = `${requiredPaperHeight}px`;
+
+      lastTotalPages = maxPageIndex + 1;
+      renderPageNumbers(lastTotalPages);
+      renderHeaderFooters(lastTotalPages);
 
       //checking the active page on which the user is focusing on
       let activePage = 1;

@@ -92,3 +92,19 @@
   background: #fff !important;
   color: #000 !important;
 }
+
+.insert-header-footer-dropdown {
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.insert-header-footer-apply-btn {
+background: #000 !important;
+color: #fff !important;
+border: 1px solid #000 !important;
+}
+
+.insert-header-footer-apply-btn:hover,
+.insert-header-footer-apply-btn:focus {
+background: #1f1f1f !important;
+color: #fff !important;
+}

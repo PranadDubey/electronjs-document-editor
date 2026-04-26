@@ -46,6 +46,7 @@
     </div>
     <div style="position:relative;">
       <button class="ribbon-tool insert-textbox-toggle-btn" type="button" title="Insert Text Box" aria-label="Insert Text Box">
+        <img src="./icons/ic_fluent_textbox_24_filled.png" alt="" width="14" height="14" style="vertical-align:middle;" />
         <span style="margin-left:6px;">Text Box</span>
       </button>
 
@@ -68,6 +69,45 @@
             Create Text Box
           </button>
         </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button class="ribbon-tool insert-page-number-toggle-btn" type="button" title="Page Numbers" aria-label="Page Numbers">
+        <img src="./icons/ic_fluent_document_page_bottom_center_24_filled.png" alt="" width="14" height="14" style="vertical-align:middle;" />
+        <span style="margin-left:6px;">Insert Page Number</span>
+      </button>
+
+      <div class="insert-page-number-dropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:220px; z-index:999;">
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; color:#222; margin-bottom:8px;">
+          Enable
+          <input class="insert-page-number-enable" type="checkbox" />
+        </label>
+
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; color:#222; margin-bottom:10px;">
+          Start From Page
+          <input class="insert-page-number-start" type="number" min="1" value="1" style="width:70px;" />
+        </label>
+
+        <button class="ribbon-tool insert-page-number-apply-btn" type="button" style="background:#000; color:#fff;">Apply</button>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button class="ribbon-tool insert-header-footer-toggle-btn" type="button" title="Header and Footer" aria-label="Header and Footer">
+        <span style="margin-left:6px;">Header & Footer</span>
+      </button>
+
+      <div class="insert-header-footer-dropdown" style="display:none; position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:250px; z-index:999;">
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; color:#222; margin-bottom:8px;">
+          Enable Header
+          <input class="insert-header-enable" type="checkbox" />
+        </label>
+
+        <label style="display:flex; align-items:center; justify-content:space-between; gap:10px; color:#222; margin-bottom:8px;">
+          Enable Footer
+          <input class="insert-footer-enable" type="checkbox" />
+        </label>
+
+        <button class="ribbon-tool insert-header-footer-apply-btn" type="button">Apply</button>
       </div>
     </div>
   </div>

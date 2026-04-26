@@ -16,6 +16,16 @@
   const textboxFillInput = document.querySelector(".insert-textbox-fill");
   const textboxFontInput = document.querySelector(".insert-textbox-font");
   const textboxCreateBtn = document.querySelector(".insert-textbox-create-btn");
+  const pageNumberToggleBtn = document.querySelector(".insert-page-number-toggle-btn");
+  const pageNumberDropdown = document.querySelector(".insert-page-number-dropdown");
+  const pageNumberEnable = document.querySelector(".insert-page-number-enable");
+  const pageNumberStart = document.querySelector(".insert-page-number-start");
+  const pageNumberApplyBtn = document.querySelector(".insert-page-number-apply-btn");
+  const headerFooterToggleBtn = document.querySelector(".insert-header-footer-toggle-btn");
+  const headerFooterDropdown = document.querySelector(".insert-header-footer-dropdown");
+  const headerEnableInput = document.querySelector(".insert-header-enable");
+  const footerEnableInput = document.querySelector(".insert-footer-enable");
+  const headerFooterApplyBtn = document.querySelector(".insert-header-footer-apply-btn");
 
 
   if (!imageBtn) return;
@@ -158,6 +168,71 @@ if (textboxToggleBtn && textboxDropdown && textboxFillInput && textboxFontInput 
     }
   });
 }
+
+// "Insert Page Number" UI handler
+if (pageNumberToggleBtn && pageNumberDropdown && pageNumberEnable && pageNumberStart && pageNumberApplyBtn) {
+  pageNumberToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const hidden = pageNumberDropdown.style.display === "none" || pageNumberDropdown.style.display === ""; // dropdown toggle
+    pageNumberDropdown.style.display = hidden ? "block" : "none";
+  });
+
+  pageNumberApplyBtn.addEventListener("click", () => {
+    const enabled = !!pageNumberEnable.checked;
+    const startFromPage = Math.max(1, parseInt(pageNumberStart.value, 10) || 1);
+
+    // broadcasting the submit event and sharing the data
+    window.dispatchEvent(new CustomEvent("pageNumbers:config", {
+      detail: { enabled, startFromPage }
+    }));
+
+    pageNumberDropdown.style.display = "none";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!pageNumberDropdown.contains(e.target) && !pageNumberToggleBtn.contains(e.target)) {
+      pageNumberDropdown.style.display = "none";
+    }
+  });
+}
+
+// "Header and Footer" UI handler
+if (
+  headerFooterToggleBtn &&
+  headerFooterDropdown &&
+  headerEnableInput &&
+  footerEnableInput &&
+  headerFooterApplyBtn
+  ) {
+      headerFooterToggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const hidden = headerFooterDropdown.style.display === "none" || headerFooterDropdown.style.display === ""; // toggle dropdown
+        headerFooterDropdown.style.display = hidden ? "block" : "none";
+      });
+
+      headerFooterApplyBtn.addEventListener("click", () => {
+        const headerEnabled = !!headerEnableInput.checked;
+        const footerEnabled = !!footerEnableInput.checked;
+
+        let activeRegion = null;
+        if (headerEnabled && footerEnabled) activeRegion = "header";
+        else if (headerEnabled) activeRegion = "header";
+        else if (footerEnabled) activeRegion = "footer";
+
+        // broadcasting the submit button with the data information
+        window.dispatchEvent(new CustomEvent("headerFooter:config", {
+          detail: { headerEnabled, footerEnabled, activeRegion }
+        }));
+
+        headerFooterDropdown.style.display = "none";
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!headerFooterDropdown.contains(e.target) && !headerFooterToggleBtn.contains(e.target)) {
+          headerFooterDropdown.style.display = "none";
+        }
+      });
+    }
   
 })();
 

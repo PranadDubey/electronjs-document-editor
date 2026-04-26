@@ -7,6 +7,91 @@
   const paragraphInputs = document.querySelectorAll(".paragraph-input");
   let savedRange = null
 
+  const getActiveHeaderFooterNode = () =>
+  document.querySelector('.hf-region[contenteditable="true"]');
+
+  let headerFooterRange = null;
+
+  // saves the selection change in the header and footer
+  document.addEventListener("selectionchange", () => {
+    const activeNode = getActiveHeaderFooterNode();
+    if (!activeNode) return;
+
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+
+    const range = sel.getRangeAt(0);
+    if (activeNode.contains(range.startContainer) && activeNode.contains(range.endContainer)) {
+      headerFooterRange = range.cloneRange();
+    }
+  });
+
+  // restores the selection range because it might get lost when clicked on ribbon
+  const restoreHeaderFooterSelection = () => {
+    const activeNode = getActiveHeaderFooterNode();
+    if (!activeNode || !headerFooterRange) return false;
+
+    const sel = window.getSelection();
+    if (!sel) return false;
+
+    sel.removeAllRanges();
+    sel.addRange(headerFooterRange);
+    return true;
+  };
+
+  // formatting the selected text
+  const execHeaderFooterCommand = (formatName) => {
+    const activeNode = getActiveHeaderFooterNode();
+    if (!activeNode) return false;
+
+    // mapping all the formatting functionalities
+    const map = {
+      bold: "bold",
+      italic: "italic",
+      underline: "underline",
+      strike: "strikeThrough"
+    };
+
+    const command = map[formatName];
+    if (!command) return false;
+
+    activeNode.focus(); // gets the cursor back to the header/footer text
+    restoreHeaderFooterSelection(); //restores the range selection
+    document.execCommand(command, false, null); // formats the selected text
+    return true;
+  };
+
+// for bold, italics, underline, align etc.
+formatBtns.forEach((btn) => {
+  btn.addEventListener("mousedown", (e) => {
+    if (getActiveHeaderFooterNode()) {
+      e.preventDefault(); // prevent losing selection in contenteditable
+    }
+  });
+
+  btn.addEventListener("click", () => {
+    const formatName = btn.getAttribute("data-format");
+    const formatValue = btn.getAttribute("data-value");
+
+    // Header/Footer mode first
+    if (execHeaderFooterCommand(formatName)) return;
+
+    if (!window.editor) return;
+
+    const activeFormats = window.editor.getFormat();
+
+    if (formatValue) {
+      const isSameValueActive = activeFormats[formatName] === formatValue;
+      window.editor.format(formatName, isSameValueActive ? false : formatValue, "user");
+    } else {
+      const isActive = !!activeFormats[formatName];
+      window.editor.format(formatName, !isActive, "user");
+    }
+
+    window.editor.focus();
+  });
+});
+
   //converting RGB to HEX for simpler Quill compatability
   const rgbToHex = (color) => {
     if (!color) return "#000000";
@@ -19,6 +104,9 @@
   // for bold, italics, underline, align etc.
   formatBtns.forEach(btn => {
   btn.addEventListener("click", () => {
+    if (getActiveHeaderFooterNode()) 
+      e.preventDefault();
+
     if (!window.editor) return;
 
     //collecting data-format such as bold, italics or underline etc
@@ -26,6 +114,8 @@
     //collecting data-value for align such as center, left or right
     const formatValue = btn.getAttribute("data-value");
     const activeFormats = window.editor.getFormat();
+
+    if (execHeaderFooterCommand(formatName, formatValue)) return;
 
     // Value formats (script/list/align-like buttons)
     if (formatValue) {
