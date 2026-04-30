@@ -1,16 +1,15 @@
-//initializing action butttons
-document.getElementById("min-btn").addEventListener("click", () => {
-  window.windowControls.minimize()
-})
-document.getElementById("max-btn").addEventListener("click", () => {
-  window.windowControls.maximize()
-})
-document.getElementById("close-btn").addEventListener("click", () => {
-  window.windowControls.close()
-})
-
 //On load
 window.addEventListener("DOMContentLoaded", () => {
+
+  //loading header UI
+  const headerHTML = window.uiComponents.loadHTML("components/header/header.html")
+  document.getElementById("header-root").innerHTML = headerHTML
+
+  //integrating header scripts
+  const headerScript = document.createElement("script")
+  headerScript.src = "./components/header/header.js"
+  document.body.appendChild(headerScript)
+
 
   //loading ribbon UI
   const ribbonHtml = window.uiComponents.loadHTML("components/ribbon/ribbon.html")

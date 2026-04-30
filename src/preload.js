@@ -28,3 +28,12 @@ contextBridge.exposeInMainWorld('fontAPI', {
 contextBridge.exposeInMainWorld("insertAPI", {
   pickImage: () => ipcRenderer.invoke("dialog:openImage")
 });
+
+contextBridge.exposeInMainWorld('fileSystem',{
+  openDocument:()=>{
+   return ipcRenderer.invoke('dialog:openFile')
+  },
+  saveDocument: (data) => {
+    return ipcRenderer.invoke('dialog:saveFile', data)
+  }
+})

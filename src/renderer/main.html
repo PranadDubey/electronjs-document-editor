@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Electron App</title>
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="./components/header/header.css"/>
     <link rel="stylesheet" href="./components/ribbon/ribbon.css" />
     <link rel="stylesheet" href="./components/document/document.css" />
     <link rel="stylesheet" href="./components/ribbon/panels/insert/insert.css" />
@@ -14,24 +15,12 @@
 </head>
 </head>
 <body>
-    <div class="titlebar">
-        <div class="titlebar-drag">Word Clone</div>
-        <div class="titlebar-buttons">
-            <button id="min-btn">
-                <img class="icon" src="./icons/fluent--subtract-24-regular.svg" alt="Minimize" />
-            </button>
-            <button id="max-btn">
-                <img class="icon" src="./icons/square_24_regular.svg" alt="Maximize" />
-            </button>
-            <button id="close-btn">
-                <img class="icon" src="./icons/fluent--dismiss-24-regular.svg" alt="Close" />
-            </button>
-        </div>
-    </div>
+    <div id="header-root"></div>
     <div id="ribbon-root"></div>
     <div id="document-root"></div>
     <div id="footer-root"></div>
     <script src="./eventBus.js"></script>
+    <script src="./services/file/file.service.js"></script>
     <script src="./libs/quill/quill.js"></script>
     <script src="../../node_modules/@enzedonline/quill-blot-formatter2/dist/index.js"></script>
     <script src="main.js"></script>
