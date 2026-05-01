@@ -1,11 +1,9 @@
 :root {
-  --page-width: 816px;    /* 8.5in at 96dpi */
-  --page-height: 1056px;  /* 11in at 96dpi */
-  --page-margin: 96px;    /* 1in margins */
+  --page-width: 816px;    
+  --page-height: 1056px;  
+  --page-margin: 96px;    
   
-  /* The space between pages (e.g. 24px) */
   --page-gap: 24px;       
-  /* Total cycle height = 1 page + 1 gap */
   --cycle-height: 1080px; 
 
   --canvas-bg: #000000;
@@ -21,12 +19,9 @@
   min-height: 100%;
 }
 
-/* The continuous visual background paper */
 .doc-page {
   width: var(--page-width);
   
-  /* THIS IS THE FIX: Instead of min-height: 1056px (which lets it grow in random pixels),
-     we use CSS 'height' with math to snap it to exact full-page increments! */
   min-height: var(--page-height); 
   height: fit-content;
   
@@ -41,34 +36,23 @@
   border-radius: 2px;
   position: relative;
 }
-/* The parent of the editor */
 .doc-content {
   box-sizing: border-box;
   width: 100%;
   min-height: 100%;
 }
 
-/* Clean up Quill's default Chrome */
 .ql-container.ql-snow {
   border: none !important;
   font-family: var(--doc-font, "Times New Roman");
   font-size: 12pt;
 }
 
-/* 
-  THIS IS THE MAGIC TRICK:
-  We constrain the text horizontally using normal padding.
-  But vertically, we use transparent bottom borders/margins on paragraphs
-  or padding to keep text away from the gap!
-*/
 .ql-editor {
-  /* Left and right margins */
   padding-left: var(--page-margin) !important;
   padding-right: var(--page-margin) !important;
   
-  /* Top margin of the very first page */
   padding-top: var(--page-margin) !important;
-  /* Bottom margin of the very last page */
   padding-bottom: var(--page-margin) !important;
   
   overflow: hidden !important; 
@@ -133,4 +117,36 @@
   letter-spacing: 0.2px;
   user-select: none;
   background: transparent;
+}
+
+.watermark-container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;   
+  align-items: center;       
+  pointer-events: none;      
+  z-index: 0;                
+  opacity: 0.15;             
+  overflow: hidden;
+  user-select: none;
+}
+
+.doc-content {
+  position: relative;
+  z-index: 1;               
+}
+
+.watermark-img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.watermark-txt {
+  font-weight: bold;
+  font-family: sans-serif;
+  text-align: center;
+  white-space: nowrap;
 }

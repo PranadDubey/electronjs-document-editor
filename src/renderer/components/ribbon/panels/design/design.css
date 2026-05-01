@@ -1,0 +1,80 @@
+#watermark-group {
+  position: relative;
+}
+
+#watermark-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 260px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  padding: 15px;
+  z-index: 1000;
+  color: #333;
+}
+
+#watermark-menu:not([hidden]) {
+  display: block;   
+}
+
+.dropdown-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.wm-option { margin-bottom: 10px; }
+.wm-option label { cursor: pointer; user-select: none; }
+
+.wm-details {
+  margin-top: 8px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wm-input-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.wm-input-group input[type="text"],
+.wm-input-group input[type="number"] {
+  width: 110px;
+  padding: 2px 4px;
+  border: 1px solid #ccc;
+}
+
+.wm-input-group input[type="color"] {
+  width: 30px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.wm-radio-group {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.wm-radio-group div { display: flex; gap: 10px; }
+
+.file-name {
+  font-size: 11px;
+  color: #28a745;
+}
+
+.dropdown-actions {
+  margin-top: 15px;
+  text-align: right;
+}

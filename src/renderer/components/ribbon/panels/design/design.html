@@ -1,1 +1,78 @@
-<div>Design panel placeholder</div>
+<div class="ribbon-group">
+  <div class="ribbon-row" style="display:flex; gap:8px; align-items:flex-start;">
+    
+    <!-- Watermark Wrapper -->
+    <div style="position:relative;" id="watermark-group">
+      
+      <!-- Styled exactly like the Insert buttons -->
+      <button id="watermark-btn" class="ribbon-tool" type="button" title="Add Watermark" aria-label="Add Watermark">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" style="vertical-align:middle;">
+          <path fill="currentColor" d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zm1.5-.5a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-11z M4.5 4.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm.5 1a.5.5 0 1 0-.001 1 .5.5 0 0 0 .001-1zM3.5 13h9a.5.5 0 0 0 .385-.828l-2.5-3a.5.5 0 0 0-.846-.082l-1.636 2.454L6.35 10.05a.5.5 0 0 0-.845.105l-2.4 4.5A.5.5 0 0 0 3.5 13z"/>
+        </svg>
+        <span style="margin-left:6px;">Add Watermark</span>
+      </button>
+
+      <!-- Dropdown styled exactly like insert-table-dropdown -->
+            <div id="watermark-menu" class="dropdown-menu" hidden style="position:absolute; top:36px; left:0; background:#fff; border:1px solid #cfcfcf; border-radius:6px; padding:10px; min-width:260px; z-index:999; color: #333;">
+        
+        <div class="dropdown-title" style="font-weight:bold; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
+          Watermark Settings
+        </div>
+        
+        <div class="wm-option">
+          <input type="radio" id="wm-none" name="wm-type" value="none" checked />
+          <label for="wm-none">No Watermark</label>
+        </div>
+
+        <div class="wm-option" style="margin-top: 8px;">
+          <input type="radio" id="wm-image" name="wm-type" value="image" />
+          <label for="wm-image">Image Watermark</label>
+          <div class="wm-details" id="wm-image-details" style="display:none; margin-top:8px; margin-left:20px; flex-direction:column; gap:8px;">
+            <button id="wm-select-img" type="button" class="ribbon-tool" style="background:#f0f0f0; border:1px solid #ccc; border-radius:4px; padding:4px;">Select Image...</button>
+            <div id="wm-img-name" style="font-size:11px; color:#28a745;"></div>
+          </div>
+        </div>
+
+        <div class="wm-option" style="margin-top: 8px;">
+          <input type="radio" id="wm-text" name="wm-type" value="text" />
+          <label for="wm-text">Text Watermark</label>
+          <div class="wm-details" id="wm-text-details" style="display:none; margin-top:8px; margin-left:20px; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+              <label>Text:</label>
+              <input type="text" id="wm-text-val" value="CONFIDENTIAL" style="width:110px; padding:2px; border:1px solid #ccc;"/>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+              <label>Color:</label>
+              <input type="color" id="wm-color" value="#000000" style="padding:0; border:none; height:20px;"/>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+              <label>Size (px):</label>
+              <input type="number" id="wm-size" value="120" min="10" max="200" style="width:110px; padding:2px; border:1px solid #ccc;" />
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px; font-size:12px; margin-top: 4px;">
+              <label>Layout:</label>
+              <div style="display:flex; gap:10px;">
+                <label><input type="radio" name="wm-layout" id="wm-diag" value="diagonal" checked> Diagonal</label>
+                <label><input type="radio" name="wm-layout" id="wm-horiz" value="horizontal"> Horizontal</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 15px; text-align: right;">
+          <button id="wm-apply" class="ribbon-tool" type="button" style="background-color: black; color: white; border-radius: 4px; padding: 4px 12px;">Apply</button>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative; width: max-content;">
+      <input type="color" id="page-color-picker" title="Page Color" value="#ffffff" style="opacity:0; position:absolute; inset:0; width:100%; height:100%; cursor:pointer; z-index: 2;" />
+      <button class="ribbon-tool" type="button" aria-label="Page Color">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" style="vertical-align:middle;">
+          <path fill="currentColor" d="M12.5 4.5l-8 8-3-3 8-8 3 3zM2.5 12.5l1.5 1.5 7-7-1.5-1.5-7 7z M12 12c-1.1 0-2-1.343-2-3 0 1.657-.9 3-2 3s-2-1.343-2-3c0 1.657-.9 3-2 3v1.5h8V12z"/>
+        </svg>
+        <span style="margin-left:6px;">Page Color</span>
+      </button>
+    </div>
+  </div>
+  <!-- <div class="panel-label">Page Background</div> -->
+</div>

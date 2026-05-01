@@ -544,6 +544,69 @@ document.addEventListener("mousedown", (e) => {
     setHeaderFooterEditable(null);
   }
 });
+
+    //Add Watermark handler
+    let currentWatermark = { type: 'none' };
+    
+    window.addEventListener("watermark:apply", (e) => {
+      currentWatermark = e.detail;
+      if(typeof lastTotalPages !== 'undefined') {
+        renderWatermarks(lastTotalPages);
+      }
+    });
+
+    function renderWatermarks(totalPages) {
+      const docPage = document.querySelector('.doc-page');
+      if (!docPage) return;
+
+      // Clear existing watermarks first
+      const existing = docPage.querySelectorAll('.watermark-container');
+      existing.forEach(el => el.remove());
+
+      if (currentWatermark.type === "none") return;
+
+      // Your standard cycle sizes
+      const PAGE_HEIGHT = 1056;  
+      const PAGE_GAP = 24;      
+      const CYCLE_HEIGHT = PAGE_HEIGHT + PAGE_GAP; 
+
+      for (let i = 0; i < totalPages; i++) {
+        const wmContainer = document.createElement("div");
+        wmContainer.className = "watermark-container";
+        
+        // Position exactly matching this page index bounds
+        wmContainer.style.top = `${(i * CYCLE_HEIGHT)}px`;
+        wmContainer.style.height = `${PAGE_HEIGHT}px`;
+
+        if (currentWatermark.type === "image") {
+          const img = document.createElement("img");
+          img.src = currentWatermark.image;
+          img.className = "watermark-img";
+          wmContainer.appendChild(img);
+        } else if (currentWatermark.type === "text") {
+          const txt = document.createElement("div");
+          txt.textContent = currentWatermark.text;
+          txt.className = "watermark-txt";
+          txt.style.color = currentWatermark.color;
+          txt.style.fontSize = `${currentWatermark.size}px`;
+          
+          if (currentWatermark.layout === "diagonal") {
+            txt.style.transform = "rotate(-45deg)";
+          }
+          wmContainer.appendChild(txt);
+        }
+
+        docPage.appendChild(wmContainer);
+      }
+    }
+
+    // Page Color handler
+    window.addEventListener("pageColor:apply", (e) => {
+      const docPage = document.querySelector('.doc-page');
+      if (docPage) {
+        docPage.style.setProperty("--page-bg",e.detail.color)
+      }
+    });
         //Dimensions of the page
         const PAGE_HEIGHT = 1056; 
         const PAGE_MARGIN = 96;   
@@ -599,6 +662,7 @@ document.addEventListener("mousedown", (e) => {
       lastTotalPages = maxPageIndex + 1;
       renderPageNumbers(lastTotalPages);
       renderHeaderFooters(lastTotalPages);
+      renderWatermarks(lastTotalPages);
 
       //checking the active page on which the user is focusing on
       let activePage = 1;
