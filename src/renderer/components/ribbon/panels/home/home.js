@@ -101,35 +101,22 @@ formatBtns.forEach((btn) => {
     return "#" + match.slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('');
   };
 
-  // for bold, italics, underline, align etc.
-  formatBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (getActiveHeaderFooterNode()) 
-      e.preventDefault();
-
+  const applyFormatToSaveRange = (formatName, val) => {
     if (!window.editor) return;
-
-    //collecting data-format such as bold, italics or underline etc
-    const formatName = btn.getAttribute("data-format");
-    //collecting data-value for align such as center, left or right
-    const formatValue = btn.getAttribute("data-value");
-    const activeFormats = window.editor.getFormat();
-
-    if (execHeaderFooterCommand(formatName, formatValue)) return;
-
-    // Value formats (script/list/align-like buttons)
-    if (formatValue) {
-      const isSameValueActive = activeFormats[formatName] === formatValue;
-      window.editor.format(formatName, isSameValueActive ? false : formatValue, "user"); //toggle the format on/off
-    } else {
-      // Boolean formats (bold/italic/underline/strike)
-      const isActive = !!activeFormats[formatName];
-      window.editor.format(formatName, !isActive, "user"); //toggle the format on/off
+    const range = savedRange; // Use the rigorously saved range BEFORE focus was lost
+    
+    if (range && range.length > 0) {
+      window.editor.formatText(range.index, range.length, formatName, val === "" ? false : val);
+    } else if (range) {
+      window.editor.format(formatName, val === "" ? false : val);
     }
-
+    
+    // Restore the exact selection
     window.editor.focus();
-  });
-});
+    if (range) {
+      window.editor.setSelection(range.index, range.length, "silent");
+    }
+  };
 
   //for font family
    formatSelects.forEach(select => {
@@ -151,23 +138,24 @@ formatBtns.forEach((btn) => {
       let val = e.target.value.trim();
       
       if (formatName === "size" && val !== "") {
-        if (isNaN(val) || val < 1 || val > 200) { // if the font size entered is NaN or more than 200 or less than 1 then fallback to 11pt
+        if (isNaN(val) || val < 1 || val > 200) { 
            val = "11pt"; 
            input.value = "11";
         } else {
            val = val + "pt";
         }
       }
+      applyFormatToSaveRange(formatName, val);
 
-      window.editor.format(formatName, val === "" ? false : val); // setting the font size
-      window.editor.focus();
-    });
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        input.blur(); 
-      }
-    });
-  })
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          input.blur(); // Trigger the "change" event
+          window.editor.focus();
+          if (savedRange) window.editor.setSelection(savedRange.index, savedRange.length);
+        }
+      });
+    })
+    })
 
     // for font color
     formatColors.forEach(colorInput => {
@@ -249,7 +237,17 @@ formatBtns.forEach((btn) => {
         value,
         "user"
       );
-      window.editor.focus();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        input.blur(); 
+        
+        // Restore focus and precise highlighting to the editor!
+        window.editor.focus();
+        if(savedRange) {
+          window.editor.setSelection(savedRange.index, savedRange.length, "silent");
+        }
+      }
     });
   });
 
